@@ -12,20 +12,18 @@ from data.user_data import (fake_data_user,
                             EXISTING_USER_ID,
                             NON_EXISTENT_USER_ID)
 
-BASE_URL = 'https://reqres.in/api'
-headers = {"x-api-key": "reqres-free-v1"}
 
 
-def test_register_user():
-    response = requests.post(url=f'{BASE_URL}/register',
+def test_register_user(base_url, headers):
+    response = requests.post(url=f'{base_url}/register',
                              headers=headers,
                              json={"email": VALID_USER_EMAIL, "password": VALID_USER_PASSWORD})
     body = response.json()
     assert response.status_code == 200
     validate(body, register_user_schema)
 
-def test_register_user_no_password():
-    response = requests.post(url=f'{BASE_URL}/register',
+def test_register_user_no_password(base_url, headers):
+    response = requests.post(url=f'{base_url}/register',
                              headers=headers,
                              json={"email": "eve.holt@reqres.in"})
     body = response.json()
@@ -34,8 +32,8 @@ def test_register_user_no_password():
     assert body['error'] == 'Missing password'
     validate(body, error_schema)
 
-def test_register_user_no_email():
-    response = requests.post(url=f'{BASE_URL}/register',
+def test_register_user_no_email(base_url, headers):
+    response = requests.post(url=f'{base_url}/register',
                              headers=headers,
                              json={"password": "pistol"})
     body = response.json()
@@ -44,8 +42,8 @@ def test_register_user_no_email():
     assert body['error'] == 'Missing email or username'
     validate(body, error_schema)
 
-def test_get_user_list():
-    response = requests.get(url=f'{BASE_URL}/users',
+def test_get_user_list(base_url, headers):
+    response = requests.get(url=f'{base_url}/users',
                             headers=headers)
     body = response.json()
     assert response.status_code == 200
@@ -53,18 +51,18 @@ def test_get_user_list():
     assert len(body['data']) > 0
     validate(body, user_list_schema)
 
-def test_delete_user():
-    response = requests.delete(url=f'{BASE_URL}/users/{EXISTING_USER_ID}',
+def test_delete_user(base_url, headers):
+    response = requests.delete(url=f'{base_url}/users/{EXISTING_USER_ID}',
                                headers=headers)
     assert response.status_code == 204
     assert response.text == ''
 
-def test_update_user():
+def test_update_user(base_url, headers):
     update_data = {
         "name": "morpheus",
         "job": "chiller"
     }
-    response = requests.put(url=f'{BASE_URL}/users/{EXISTING_USER_ID}',
+    response = requests.put(url=f'{base_url}/users/{EXISTING_USER_ID}',
                             headers=headers,
                             json=update_data)
     body = response.json()
@@ -75,23 +73,23 @@ def test_update_user():
     assert body['job'] == update_data['job']
     validate(body, update_user_schema)
 
-def test_get_single_user():
-    response = requests.get(url=f'{BASE_URL}/users/{EXISTING_USER_ID}',
+def test_get_single_user(base_url, headers):
+    response = requests.get(url=f'{base_url}/users/{EXISTING_USER_ID}',
                             headers=headers)
     body = response.json()
     assert response.status_code == 200
     validate(body, single_user_schema)
 
-def test_get_nonexistent_user_returns_404():
-    response = requests.get(url=f'{BASE_URL}/users/{NON_EXISTENT_USER_ID}',
+def test_get_nonexistent_user_returns_404(base_url, headers):
+    response = requests.get(url=f'{base_url}/users/{NON_EXISTENT_USER_ID}',
                             headers=headers)
 
     assert response.status_code == 404
 
 
-def test_create_user():
+def test_create_user(base_url, headers):
     new_user = fake_data_user()
-    response = requests.post(url=f'{BASE_URL}/users',
+    response = requests.post(url=f'{base_url}/users',
                              headers=headers,
                              json=new_user.as_dict())
     body = response.json()
@@ -100,8 +98,8 @@ def test_create_user():
     assert 'id' in body
     assert 'createdAt' in body
 
-def test_user_list_contains_valid_email_format():
-    response = requests.get(url=f'{BASE_URL}/users',
+def test_user_list_contains_valid_email_format(base_url, headers):
+    response = requests.get(url=f'{base_url}/users',
                             headers=headers)
     body = response.json()
 
