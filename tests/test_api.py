@@ -5,7 +5,7 @@ from data.schema import (user_list_schema,
                          error_schema,
                          register_user_schema,
                          update_user_schema,
-                         single_user_schema)
+                         single_user_schema, post_users, put_users)
 from data.user_data import (fake_data_user,
                             VALID_USER_EMAIL,
                             VALID_USER_PASSWORD,
@@ -62,6 +62,7 @@ def test_update_user(base_url, headers):
         "name": "morpheus",
         "job": "chiller"
     }
+    validate(update_data, put_users)
     response = requests.put(url=f'{base_url}/users/{EXISTING_USER_ID}',
                             headers=headers,
                             json=update_data)
@@ -89,9 +90,11 @@ def test_get_nonexistent_user_returns_404(base_url, headers):
 
 def test_create_user(base_url, headers):
     new_user = fake_data_user()
+    json_data = new_user.as_dict()
+    validate(json_data, post_users)
     response = requests.post(url=f'{base_url}/users',
                              headers=headers,
-                             json=new_user.as_dict())
+                             json=json_data)
     body = response.json()
 
     assert response.status_code == 201

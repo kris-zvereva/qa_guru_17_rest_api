@@ -1,4 +1,3 @@
-# Схема 1: Список пользователей (GET /api/users)
 user_list_schema = {
     "type": "object",
     "properties": {
@@ -67,4 +66,36 @@ single_user_schema = {
         }
     },
     "required": ["data"]
+}
+
+post_users = {
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "job": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "name",
+        "job"
+    ]
+}
+
+put_users = {
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "job": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "name",
+        "job"
+    ]
 }
