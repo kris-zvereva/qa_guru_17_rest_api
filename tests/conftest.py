@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+BASE_URL = 'https://reqres.in/api'
+
+
 @pytest.fixture(scope='session')
 def api_key():
     key = os.getenv('REQRES_PUBLIC_KEY')
@@ -14,7 +17,7 @@ def api_key():
 
 @pytest.fixture(scope='session')
 def base_url():
-    return 'https://reqres.in/api'
+    return BASE_URL
 
 @pytest.fixture(scope='session')
 def headers(api_key):

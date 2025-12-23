@@ -39,6 +39,14 @@ register_user_schema = {
     },
     "required": ["id", "token"]
 }
+register_user_request_schema = {
+    "type": "object",
+    "properties": {
+        "email": {"type": "string", "format": "email"},
+        "password": {"type": "string"}
+    },
+    "required": ["email", "password"]
+}
 
 update_user_schema = {
     "type": "object",

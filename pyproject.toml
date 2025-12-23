@@ -12,6 +12,8 @@ pytest = "^8.4.2"
 jsonschema = "^4.25.1"
 faker = "^37.12.0"
 python-dotenv = "^1.2.1"
+allure-python-commons = "^2.15.2"
+allure-pytest = "^2.15.2"
 
 
 [build-system]
